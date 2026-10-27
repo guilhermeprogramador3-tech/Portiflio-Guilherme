@@ -1,0 +1,26 @@
+{
+    "items": [
+        {"id": "food_canned", "name": "Comida Enlatada", "type": "food", "icon": "🥫", "hunger": 25, "stackable": true, "maxStack": 5, "description": "Comida enlatada. Restaura fome."},
+        {"id": "food_meat", "name": "Carne Seca", "type": "food", "icon": "🥩", "hunger": 40, "stackable": true, "maxStack": 3, "description": "Carne seca nutritiva."},
+        {"id": "food_bread", "name": "Pão Velho", "type": "food", "icon": "🍞", "hunger": 15, "stackable": true, "maxStack": 5, "description": "Pão um pouco velho mas comestível."},
+        {"id": "water_bottle", "name": "Garrafa d'Água", "type": "water", "icon": "💧", "thirst": 30, "stackable": true, "maxStack": 5, "description": "Água potável."},
+        {"id": "water_soda", "name": "Refrigerante", "type": "water", "icon": "🥤", "thirst": 20, "hunger": 5, "stackable": true, "maxStack": 5, "description": "Refrigerante. Mata um pouco da sede e fome."},
+        {"id": "medkit", "name": "Kit Médico", "type": "medicine", "icon": "🩹", "health": 50, "stackable": true, "maxStack": 3, "description": "Kit médico completo. Restaura muita vida."},
+        {"id": "bandage", "name": "Bandagem", "type": "medicine", "icon": "🩹", "health": 20, "stackable": true, "maxStack": 5, "description": "Bandagem improvisada."},
+        {"id": "painkillers", "name": "Analgésicos", "type": "medicine", "icon": "💊", "health": 15, "energy": 20, "stackable": true, "maxStack": 5, "description": "Alivia dor e restaura energia."},
+        {"id": "fabric", "name": "Tecido", "type": "material", "icon": "🧵", "stackable": true, "maxStack": 10, "description": "Pedaço de tecido útil para crafting."},
+        {"id": "metal", "name": "Sucata de Metal", "type": "material", "icon": "🔩", "stackable": true, "maxStack": 10, "description": "Metal reciclável."},
+        {"id": "alcohol", "name": "Álcool", "type": "material", "icon": "🧴", "stackable": true, "maxStack": 5, "description": "Álcool medicinal."},
+        {"id": "tools", "name": "Ferramentas", "type": "material", "icon": "🔧", "stackable": true, "maxStack": 3, "description": "Kit de ferramentas."},
+        {"id": "parts", "name": "Peças Mecânicas", "type": "material", "icon": "⚙️", "stackable": true, "maxStack": 5, "description": "Peças mecânicas diversas."},
+        {"id": "fuel", "name": "Combustível", "type": "material", "icon": "⛽", "stackable": true, "maxStack": 3, "description": "Galão de combustível."},
+        {"id": "ammo_pistol", "name": "Munição Pistola", "type": "ammo", "icon": "🔸", "ammoType": "pistol", "amount": 12, "stackable": true, "maxStack": 5, "description": "Cartucho de munição para pistola."},
+        {"id": "ammo_rifle", "name": "Munição Rifle", "type": "ammo", "icon": "🔹", "ammoType": "rifle", "amount": 10, "stackable": true, "maxStack": 5, "description": "Munição para rifle."},
+        {"id": "ammo_shotgun", "name": "Munição Shotgun", "type": "ammo", "icon": "🔶", "ammoType": "shotgun", "amount": 8, "stackable": true, "maxStack": 5, "description": "Cartuchos de shotgun."},
+        {"id": "vest", "name": "Colete Balístico", "type": "armor", "icon": "🦺", "armor": 30, "stackable": false, "description": "Colete à prova de balas. Reduz dano recebido."},
+        {"id": "helmet", "name": "Capacete Tático", "type": "armor", "icon": "⛑️", "armor": 15, "stackable": false, "description": "Capacete militar."},
+        {"id": "key_hospital", "name": "Chave Hospital", "type": "key", "icon": "🔑", "stackable": false, "description": "Chave para a ala restrita do hospital."},
+        {"id": "key_military", "name": "Cartão Militar", "type": "key", "icon": "🪪", "stackable": false, "description": "Cartão de acesso à base militar."},
+        {"id": "energy_drink", "name": "Energético", "type": "consumable", "icon": "🫙", "energy": 40, "stackable": true, "maxStack": 3, "description": "Bebida energética. Restaura energia."}
+    ]
+}

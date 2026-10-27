@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>𝕿𝖍𝖊 𝕷𝖆𝖘𝖙 𝕭𝖗𝖊𝖆𝖙𝖍</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Tela de Loading -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1>𝕿𝖍𝖊 𝕷𝖆𝖘𝖙 𝕭𝖗𝖊𝖆𝖙𝖍</h1>
+            <h2>Último Refúgio</h2>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            <p id="loading-text">Carregando...</p>
+        </div>
+    </div>
+
+    <!-- Menu Principal -->
+    <div id="main-menu" style="display:none;">
+        <div class="menu-content">
+            <h1>𝕿𝖍𝖊 𝕷𝖆𝖘𝖙 𝕭𝖗𝖊𝖆𝖙𝖍</h1>
+            <h2>Último Refúgio</h2>
+            <button id="btn-new-game">Novo Jogo</button>
+            <button id="btn-continue" style="display:none;">Continuar</button>
+            <button id="btn-controls">Controles</button>
+        </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" style="display:none;">
+        <!-- Barra de Status -->
+        <div id="status-bars">
+            <div class="status-bar">
+                <span class="bar-label">❤️ Vida</span>
+                <div class="bar-container"><div class="bar-fill" id="health-bar"></div></div>
+                <span class="bar-value" id="health-value">100</span>
+            </div>
+            <div class="status-bar">
+                <span class="bar-label">🍖 Fome</span>
+                <div class="bar-container"><div class="bar-fill hunger" id="hunger-bar"></div></div>
+                <span class="bar-value" id="hunger-value">100</span>
+            </div>
+            <div class="status-bar">
+                <span class="bar-label">💧 Sede</span>
+                <div class="bar-container"><div class="bar-fill thirst" id="thirst-bar"></div></div>
+                <span class="bar-value" id="thirst-value">100</span>
+            </div>
+            <div class="status-bar">
+                <span class="bar-label">⚡ Energia</span>
+                <div class="bar-container"><div class="bar-fill energy" id="energy-bar"></div></div>
+                <span class="bar-value" id="energy-value">100</span>
+            </div>
+        </div>
+
+        <!-- Arma Atual -->
+        <div id="weapon-display">
+            <span id="weapon-name">Faca</span>
+            <span id="ammo-count"></span>
+        </div>
+
+        <!-- Mira -->
+        <div id="crosshair">+</div>
+
+        <!-- Minimapa -->
+        <canvas id="minimap" width="200" height="200"></canvas>
+
+        <!-- Relógio Dia/Noite -->
+        <div id="day-night-display">
+            <div id="hud-day">Dia 1</div>
+            <div id="hud-clock">06:00</div>
+            <div id="hud-phase">🌅 Amanhecer</div>
+        </div>
+
+        <!-- Missão Atual -->
+        <div id="quest-display">
+            <span id="quest-text"></span>
+        </div>
+
+        <!-- Notificações -->
+        <div id="notifications"></div>
+
+        <!-- Interação -->
+        <div id="interact-prompt" style="display:none;">
+            <span>[E] Interagir</span>
+        </div>
+
+        <!-- Localização atual -->
+        <div id="hud-location">🌆 Cidade Morta</div>
+
+        <!-- Controles Mobile -->
+        <div id="mobile-controls" style="display:none;">
+            <div id="joystick-container">
+                <div id="joystick-base">
+                    <div id="joystick-stick"></div>
+                </div>
+            </div>
+            <div id="mobile-buttons">
+                <button class="mobile-btn" id="btn-mobile-attack">⚔️</button>
+                <button class="mobile-btn" id="btn-mobile-interact">🤚</button>
+                <button class="mobile-btn" id="btn-mobile-jump">⬆️</button>
+                <button class="mobile-btn" id="btn-mobile-inventory">🎒</button>
+                <button class="mobile-btn" id="btn-mobile-reload">🔄</button>
+                <button class="mobile-btn" id="btn-mobile-questlog">📋</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventário -->
+    <div id="inventory-screen" style="display:none;">
+        <div class="inventory-panel">
+            <h2>Inventário</h2>
+            <div id="inventory-grid"></div>
+            <div id="item-details">
+                <h3 id="item-name"></h3>
+                <p id="item-desc"></p>
+                <button id="btn-use-item" style="display:none;">Usar</button>
+                <button id="btn-equip-item" style="display:none;">Equipar</button>
+                <button id="btn-drop-item" style="display:none;">Jogar Fora</button>
+            </div>
+            <button id="btn-close-inventory">Fechar [I]</button>
+        </div>
+    </div>
+
+    <!-- Crafting -->
+    <div id="crafting-screen" style="display:none;">
+        <div class="crafting-panel">
+            <h2>Fabricação</h2>
+            <div id="crafting-recipes"></div>
+            <button id="btn-close-crafting">Fechar [C]</button>
+        </div>
+    </div>
+
+    <!-- Diálogo NPC -->
+    <div id="dialog-screen" style="display:none;">
+        <div class="dialog-panel">
+            <h3 id="dialog-npc-name"></h3>
+            <p id="dialog-text"></p>
+            <div id="dialog-options"></div>
+        </div>
+    </div>
+
+    <!-- Log de Missões -->
+    <div id="quest-log-screen" style="display:none;">
+        <div class="quest-log-panel">
+            <h2>📋 Diário de Missões</h2>
+            <div id="quest-log-list"></div>
+            <button id="btn-close-questlog">Fechar [J]</button>
+        </div>
+    </div>
+
+    <!-- Tela de Morte -->
+    <div id="death-screen" style="display:none;">
+        <div class="death-content">
+            <h1>VOCÊ MORREU</h1>
+            <p>Os zumbis venceram...</p>
+            <button id="btn-respawn">Renascer na Torre</button>
+        </div>
+    </div>
+
+    <!-- Pause -->
+    <div id="pause-screen" style="display:none;">
+        <div class="pause-content">
+            <h2>PAUSADO</h2>
+            <button id="btn-resume">Continuar</button>
+            <button id="btn-save">Salvar</button>
+            <button id="btn-quit">Sair</button>
+        </div>
+    </div>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="js/save.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/camera.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/weapons.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/crafting.js"></script>
+    <script src="js/buildings.js"></script>
+    <script src="js/city.js"></script>
+    <script src="js/world.js"></script>
+    <script src="js/zombies.js"></script>
+    <script src="js/npc.js"></script>
+    <script src="js/vehicles.js"></script>
+    <script src="js/quests.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

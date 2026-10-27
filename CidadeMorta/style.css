@@ -1,0 +1,835 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: #000;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #fff;
+    cursor: none;
+}
+
+canvas {
+    display: block;
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, #1a0a0a, #0a0a1a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-content h1 {
+    font-size: 3rem;
+    color: #ff3333;
+    text-shadow: 0 0 20px rgba(255,0,0,0.5);
+    margin-bottom: 10px;
+}
+
+.loading-content h2 {
+    font-size: 1.5rem;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.loading-bar {
+    width: 300px;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    margin: 0 auto 15px;
+    overflow: hidden;
+}
+
+.loading-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #ff3333, #ff6600);
+    width: 0%;
+    transition: width 0.3s;
+    border-radius: 4px;
+}
+
+#loading-text {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Main Menu */
+#main-menu {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, rgba(20,5,5,0.95), rgba(5,5,20,0.95));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+}
+
+.menu-content {
+    text-align: center;
+}
+
+.menu-content h1 {
+    font-size: 4rem;
+    color: #ff3333;
+    text-shadow: 0 0 30px rgba(255,0,0,0.6);
+    margin-bottom: 10px;
+}
+
+.menu-content h2 {
+    font-size: 1.8rem;
+    color: #999;
+    margin-bottom: 40px;
+}
+
+.menu-content button {
+    display: block;
+    width: 250px;
+    margin: 10px auto;
+    padding: 15px;
+    font-size: 1.2rem;
+    background: rgba(255,50,50,0.2);
+    border: 2px solid #ff3333;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.menu-content button:hover {
+    background: rgba(255,50,50,0.5);
+    transform: scale(1.05);
+}
+
+/* HUD */
+#hud {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#hud * {
+    pointer-events: auto;
+}
+
+#status-bars {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 220px;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: 0.75rem;
+}
+
+.bar-label {
+    width: 70px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.bar-container {
+    flex: 1;
+    height: 12px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff3333, #ff6666);
+    width: 100%;
+    transition: width 0.3s;
+    border-radius: 6px;
+}
+
+.bar-fill.hunger {
+    background: linear-gradient(90deg, #ff8800, #ffaa33);
+}
+
+.bar-fill.thirst {
+    background: linear-gradient(90deg, #3388ff, #66aaff);
+}
+
+.bar-fill.energy {
+    background: linear-gradient(90deg, #ffdd00, #ffee55);
+}
+
+.bar-value {
+    width: 30px;
+    text-align: right;
+    font-size: 0.7rem;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Weapon Display */
+#weapon-display {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.2);
+    text-align: center;
+}
+
+#weapon-name {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#ammo-count {
+    font-size: 0.8rem;
+    color: #ffaa00;
+}
+
+/* Crosshair */
+#crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: rgba(255,255,255,0.8);
+    text-shadow: 0 0 3px #000;
+    pointer-events: none;
+}
+
+/* Minimap */
+#minimap {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+}
+
+/* ── Relógio Dia/Noite ─────────────────── */
+#day-night-display {
+    position: absolute;
+    top: 220px;
+    right: 10px;
+    width: 120px;
+    background: rgba(0, 0, 0, 0.72);
+    border: 2px solid #ffaa33;
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(255,170,51,0.4);
+    transition: border-color 1.5s ease, box-shadow 1.5s ease;
+    user-select: none;
+}
+
+#hud-day {
+    font-size: 0.65rem;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+#hud-clock {
+    font-size: 1.55rem;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    text-shadow: 0 0 10px rgba(255,220,80,0.6);
+}
+
+#hud-phase {
+    font-size: 0.70rem;
+    color: #cccccc;
+    margin-top: 3px;
+}
+
+/* Quest Display */
+#quest-display {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,200,0,0.5);
+    font-size: 0.85rem;
+}
+
+/* Notifications */
+#notifications {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.notification {
+    background: rgba(0,0,0,0.7);
+    padding: 8px 16px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    animation: fadeInOut 3s forwards;
+    font-size: 0.85rem;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Interact Prompt */
+#interact-prompt {
+    position: absolute;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 1rem;
+}
+
+/* Localização atual */
+#hud-location {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.65);
+    color: #ffeecc;
+    padding: 6px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,220,100,0.35);
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 100;
+}
+
+/* Inventory */
+#inventory-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+}
+
+.inventory-panel {
+    background: rgba(30,30,40,0.95);
+    border: 2px solid #555;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+    max-width: 90vw;
+}
+
+.inventory-panel h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ffaa00;
+}
+
+#inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.inv-slot {
+    width: 60px;
+    height: 60px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid #444;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    position: relative;
+    transition: border-color 0.2s;
+}
+
+.inv-slot:hover {
+    border-color: #ffaa00;
+}
+
+.inv-slot.selected {
+    border-color: #ff3333;
+    border-width: 2px;
+}
+
+.inv-slot .item-count {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 0.6rem;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+#item-details {
+    background: rgba(0,0,0,0.4);
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 80px;
+    margin-bottom: 10px;
+}
+
+#item-details button {
+    margin-right: 10px;
+    padding: 5px 15px;
+    background: rgba(255,100,0,0.3);
+    border: 1px solid #ff6600;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#item-details button:hover {
+    background: rgba(255,100,0,0.6);
+}
+
+#btn-close-inventory, #btn-close-crafting {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255,50,50,0.2);
+    border: 1px solid #ff3333;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Crafting */
+#crafting-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+}
+
+.crafting-panel {
+    background: rgba(30,30,40,0.95);
+    border: 2px solid #555;
+    border-radius: 10px;
+    padding: 20px;
+    width: 500px;
+    max-width: 90vw;
+}
+
+.crafting-panel h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #00cc88;
+}
+
+.craft-recipe {
+    background: rgba(0,0,0,0.4);
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.craft-recipe .recipe-name {
+    font-weight: bold;
+}
+
+.craft-recipe .recipe-materials {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.craft-recipe button {
+    padding: 5px 15px;
+    background: rgba(0,200,100,0.3);
+    border: 1px solid #00cc66;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.craft-recipe button:hover {
+    background: rgba(0,200,100,0.6);
+}
+
+.craft-recipe button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Dialog */
+#dialog-screen {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%;
+    z-index: 400;
+}
+
+.dialog-panel {
+    background: rgba(20,20,30,0.95);
+    border-top: 2px solid #555;
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.dialog-panel h3 {
+    color: #ffaa00;
+    margin-bottom: 10px;
+}
+
+.dialog-panel p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+#dialog-options button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: left;
+}
+
+#dialog-options button:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: #ffaa00;
+}
+
+/* Quest Log (Diário de Missões) */
+#quest-log-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+}
+
+.quest-log-panel {
+    background: rgba(30,30,40,0.95);
+    border: 2px solid #555;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.quest-log-panel h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ffaa00;
+}
+
+#quest-log-list {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 15px;
+    padding-right: 5px;
+}
+
+.quest-log-empty {
+    color: #999;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.quest-log-entry {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+}
+
+.quest-log-active {
+    border-color: #ffaa00;
+}
+
+.quest-log-upcoming {
+    border-color: #666;
+    opacity: 0.7;
+}
+
+.quest-log-done {
+    border-color: #2a6a2a;
+    opacity: 0.6;
+}
+
+.quest-log-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.quest-log-desc {
+    font-size: 0.85rem;
+    color: #bbb;
+    margin-bottom: 8px;
+}
+
+.quest-log-objectives {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.85rem;
+}
+
+.quest-log-objectives li {
+    padding: 2px 0;
+}
+
+.quest-log-obj-done {
+    color: #66dd66;
+    text-decoration: line-through;
+}
+
+.quest-log-obj-pending {
+    color: #ddd;
+}
+
+.quest-log-section {
+    color: #888;
+    margin: 10px 0 6px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-top: 1px solid #444;
+    padding-top: 8px;
+}
+
+#btn-close-questlog {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255,50,50,0.2);
+    border: 1px solid #ff3333;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Death Screen */
+#death-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(100,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 800;
+}
+
+.death-content {
+    text-align: center;
+}
+
+.death-content h1 {
+    font-size: 4rem;
+    color: #ff0000;
+    text-shadow: 0 0 30px rgba(255,0,0,0.8);
+    margin-bottom: 20px;
+}
+
+.death-content button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: rgba(255,50,50,0.3);
+    border: 2px solid #ff3333;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Pause */
+#pause-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 700;
+}
+
+.pause-content {
+    text-align: center;
+}
+
+.pause-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.pause-content button {
+    display: block;
+    width: 200px;
+    margin: 10px auto;
+    padding: 12px;
+    font-size: 1.1rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid #666;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pause-content button:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: #fff;
+}
+
+/* Mobile Controls */
+#mobile-controls {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%; height: 200px;
+    pointer-events: none;
+    z-index: 150;
+}
+
+#mobile-controls * {
+    pointer-events: auto;
+}
+
+#joystick-container {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+}
+
+#joystick-base {
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    position: relative;
+}
+
+#joystick-stick {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#mobile-buttons {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 160px;
+    justify-content: flex-end;
+}
+
+.mobile-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-btn:active {
+    background: rgba(255,255,255,0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .inventory-panel {
+        width: 95vw;
+        padding: 10px;
+    }
+
+    #inventory-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .inv-slot {
+        width: 50px;
+        height: 50px;
+    }
+
+    #status-bars {
+        width: 180px;
+    }
+
+    .bar-label {
+        width: 55px;
+        font-size: 0.65rem;
+    }
+}
+
+/* The Last Breath title style */
+.game-title{font-family:serif;letter-spacing:4px;text-shadow:0 0 15px #900;color:#ddd;}

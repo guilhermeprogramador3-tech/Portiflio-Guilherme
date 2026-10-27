@@ -1,0 +1,12 @@
+{
+    "weapons": [
+        {"id": "fist", "name": "Punhos", "type": "melee", "icon": "👊", "damage": 5, "speed": 0.3, "range": 2, "description": "Seus punhos. Melhor que nada."},
+        {"id": "knife", "name": "Faca", "type": "melee", "icon": "🔪", "damage": 15, "speed": 0.4, "range": 2.5, "critical": 0.2, "description": "Faca de combate. Rápida e letal."},
+        {"id": "bat", "name": "Taco de Baseball", "type": "melee", "icon": "🏏", "damage": 20, "speed": 0.6, "range": 3, "critical": 0.1, "description": "Taco resistente. Bom para esmagar crânios."},
+        {"id": "axe", "name": "Machado", "type": "melee", "icon": "🪓", "damage": 30, "speed": 0.8, "range": 2.8, "critical": 0.15, "description": "Machado pesado. Dano alto mas lento."},
+        {"id": "sword", "name": "Espada Improvisada", "type": "melee", "icon": "⚔️", "damage": 35, "speed": 0.7, "range": 3.5, "critical": 0.2, "description": "Lâmina improvisada com metal afiado."},
+        {"id": "pistol", "name": "Pistola 9mm", "type": "ranged", "icon": "🔫", "damage": 25, "speed": 0.3, "range": 50, "ammoType": "pistol", "magSize": 12, "reloadTime": 1.5, "critical": 0.15, "description": "Pistola semi-automática confiável."},
+        {"id": "rifle", "name": "Rifle de Assalto", "type": "ranged", "icon": "🔫", "damage": 35, "speed": 0.15, "range": 80, "ammoType": "rifle", "magSize": 30, "reloadTime": 2.5, "critical": 0.1, "description": "Rifle automático de alta potência."},
+        {"id": "shotgun", "name": "Shotgun", "type": "ranged", "icon": "🔫", "damage": 60, "speed": 0.9, "range": 20, "ammoType": "shotgun", "magSize": 6, "reloadTime": 3.0, "critical": 0.25, "spread": 0.3, "description": "Devastadora a curta distância."}
+    ]
+}

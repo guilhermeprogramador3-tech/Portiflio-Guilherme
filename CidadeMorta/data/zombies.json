@@ -1,0 +1,10 @@
+{
+    "zombies": [
+        {"id": "common", "name": "Zumbi Comum", "health": 40, "damage": 10, "speed": 1.5, "color": "#4a7a4a", "scale": 1.0, "xp": 10, "description": "Zumbi lento e fraco. Perigoso em grupos."},
+        {"id": "runner", "name": "Corredor", "health": 30, "damage": 15, "speed": 4.0, "color": "#7a4a4a", "scale": 0.9, "xp": 20, "description": "Zumbi rápido. Cuidado com a velocidade."},
+        {"id": "armored", "name": "Blindado", "health": 150, "damage": 25, "speed": 1.0, "color": "#5a5a6a", "scale": 1.3, "xp": 40, "description": "Zumbi com armadura natural. Muito resistente."},
+        {"id": "mutant", "name": "Mutante", "health": 500, "damage": 50, "speed": 2.0, "color": "#8a2a8a", "scale": 2.0, "xp": 100, "isBoss": true, "description": "Mutação extrema. Boss perigoso."},
+        {"id": "king", "name": "Rei Zumbi", "health": 2000, "damage": 80, "speed": 2.5, "color": "#aa0000", "scale": 3.0, "xp": 500, "isBoss": true, "phases": 3, "description": "O líder supremo dos mortos-vivos."},
+        {"id": "queen", "name": "Zumbi Rainha", "health": 2500, "damage": 70, "speed": 3.0, "color": "#cc1166", "scale": 2.6, "xp": 600, "isBoss": true, "phases": 3, "description": "A Dra. Jennifer, transformada pela própria cura que tentou testar em si mesma."}
+    ]
+}
