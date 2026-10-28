@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabores de Itaquá • Delivery & Compras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ifood-red: #EA1D2C; --ifood-red-hover: #C41624; --ifood-dark: #1A1A1A;
+            --ifood-bg: #F7F7F7; --ifood-surface: #FFFFFF; --ifood-surface-alt: #F2F2F2;
+            --ifood-border: #E8E8E8; --ifood-text: #1A1A1A; --ifood-text-secondary: #717171;
+            --ifood-text-muted: #A6A6A6; --ifood-green: #50A773; --ifood-green-light: #E8F5EE;
+            --ifood-orange: #FF8C00; --ifood-purple: #7C3AED; --ifood-star: #F5A623;
+            --ifood-shadow-card: 0 2px 12px rgba(0,0,0,0.05); --ifood-shadow-hover: 0 12px 32px rgba(0,0,0,0.10);
+            --ifood-shadow-lg: 0 20px 48px rgba(0,0,0,0.12); --ifood-radius-sm: 8px;
+            --ifood-radius: 12px; --ifood-radius-lg: 16px; --ifood-radius-xl: 24px;
+            --ifood-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-bg: rgba(255,255,255,0.75); --glass-border: rgba(255,255,255,0.5);
+        }
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #fdf2f2 0%, #f7f7f7 30%, #f0f4ff 100%);
+            background-attachment: fixed; color: var(--ifood-text); line-height: 1.5;
+            -webkit-font-smoothing: antialiased; overflow-x: hidden;
+        }
+        ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D1D1D6;border-radius:2px}
+
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(234,29,44,0.4); } 50% { box-shadow: 0 0 0 12px rgba(234,29,44,0); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .animate-in { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
+        .animate-in-delay-1 { animation-delay: 0.1s; }
+        .animate-in-delay-2 { animation-delay: 0.2s; }
+        .animate-in-delay-3 { animation-delay: 0.3s; }
+        .shimmer-bg {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%; animation: shimmer 1.5s infinite;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(234,29,44,0.92); backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 0 20px; height: 56px; display: flex; align-items: center;
+            justify-content: space-between; box-shadow: 0 4px 20px rgba(234,29,44,0.2);
+            transition: var(--ifood-transition);
+        }
+        .topbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .topbar-logo{width:34px;height:34px;background:rgba(255,255,255,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:white}
+        .topbar-name{font-weight:800;font-size:1.15rem;color:white;letter-spacing:-0.3px}
+        .topbar-actions{display:flex;gap:6px;align-items:center}
+        .btn-topbar{padding:7px 15px;border-radius:50px;font-weight:600;font-size:0.78rem;cursor:pointer;border:none;background:rgba(255,255,255,0.18);color:white;transition:var(--ifood-transition);white-space:nowrap;display:flex;align-items:center;gap:5px}
+        .btn-topbar:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}
+        .btn-topbar-accent{background:white;color:var(--ifood-red);font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        .btn-topbar-accent:hover{background:#fefefe;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+        /* MAIN */
+        .main-content{max-width:1340px;margin:0 auto;padding:72px 20px 40px}
+
+        /* HERO */
+        .hero{padding:30px 0 30px;text-align:center;animation:fadeInUp 0.6s ease}
+        .hero-badge{display:inline-block;background:#FFF0EE;color:var(--ifood-red);padding:5px 14px;border-radius:50px;font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;box-shadow:0 2px 8px rgba(234,29,44,0.1)}
+        .hero h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:900;color:var(--ifood-dark);margin-bottom:6px;letter-spacing:-0.5px}
+        .hero h1 .accent{color:var(--ifood-red)}
+        .hero p{color:var(--ifood-text-secondary);font-size:0.95rem;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto}
+
+        /* SEARCH */
+        .search-row{display:flex;gap:8px;max-width:650px;margin:0 auto 20px;align-items:center}
+        .search-bar{flex:1;display:flex;background:white;border-radius:50px;padding:3px;box-shadow:var(--ifood-shadow-card);border:2px solid transparent;transition:var(--ifood-transition);align-items:center}
+        .search-bar:focus-within{border-color:var(--ifood-red);box-shadow:0 0 0 4px rgba(234,29,44,0.08)}
+        .search-bar .search-icon{padding-left:16px;font-size:1rem;color:var(--ifood-text-muted);flex-shrink:0}
+        .search-bar input{flex:1;border:none;padding:13px 12px;font-family:'Inter',sans-serif;font-size:0.9rem;outline:none;background:transparent;color:var(--ifood-text)}
+        .search-bar input::placeholder{color:var(--ifood-text-muted)}
+        .search-bar button{background:var(--ifood-red);color:white;border:none;padding:11px 20px;border-radius:50px;font-weight:700;cursor:pointer;font-size:0.85rem;transition:var(--ifood-transition);font-family:'Inter',sans-serif}
+        .search-bar button:hover{background:var(--ifood-red-hover);transform:scale(1.02)}
+        .btn-mic{width:48px;height:48px;border-radius:50%;background:white;border:1.5px solid var(--ifood-border);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:var(--ifood-transition);box-shadow:var(--ifood-shadow-card);flex-shrink:0}
+        .btn-mic:hover{border-color:var(--ifood-red);transform:scale(1.05)}.btn-mic.listening{background:var(--ifood-red);color:white;border-color:var(--ifood-red);animation:pulse 0.8s infinite}
+        .btn-location{padding:0 18px;height:48px;border-radius:50px;font-weight:700;font-size:0.82rem;cursor:pointer;border:1.5px solid var(--ifood-border);background:white;color:var(--ifood-text-secondary);transition:var(--ifood-transition);white-space:nowrap;box-shadow:var(--ifood-shadow-card);display:flex;align-items:center;gap:6px}
+        .btn-location:hover{border-color:var(--ifood-red);color:var(--ifood-red);transform:translateY(-1px)}.btn-location.active{background:var(--ifood-red);color:white;border-color:var(--ifood-red)}
+
+        /* FILTERS */
+        .filters-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px}
+        .filter-pill{padding:8px 14px;border-radius:50px;border:1.2px solid var(--ifood-border);background:white;font-weight:600;font-size:0.78rem;cursor:pointer;outline:none;transition:var(--ifood-transition);font-family:'Inter',sans-serif;color:var(--ifood-text-secondary);display:flex;align-items:center;gap:4px}
+        .filter-pill:hover{border-color:var(--ifood-red);color:var(--ifood-red);transform:translateY(-1px)}.filter-pill:focus{border-color:var(--ifood-red)}
+
+        /* MAP */
+        .map-container{width:100%;height:280px;border-radius:var(--ifood-radius-lg);overflow:hidden;margin-bottom:28px;box-shadow:var(--ifood-shadow-card);transition:var(--ifood-transition)}
+        .map-container:hover{box-shadow:var(--ifood-shadow-hover)}
+        .map-container iframe{width:100%;height:100%;border:none}
+
+        /* CATEGORIES */
+        .cat-scroll{overflow-x:auto;padding-bottom:8px;margin-bottom:24px;-webkit-overflow-scrolling:touch}
+        .cat-scroll::-webkit-scrollbar{height:0}.cat-row{display:flex;gap:14px;padding:0 4px}
+        .cat-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;width:74px;transition:var(--ifood-transition);text-decoration:none;animation:fadeInUp 0.5s ease forwards;opacity:0}
+        .cat-item:nth-child(1){animation-delay:0.05s}.cat-item:nth-child(2){animation-delay:0.1s}.cat-item:nth-child(3){animation-delay:0.15s}.cat-item:nth-child(4){animation-delay:0.2s}.cat-item:nth-child(5){animation-delay:0.25s}.cat-item:nth-child(6){animation-delay:0.3s}.cat-item:nth-child(7){animation-delay:0.35s}.cat-item:nth-child(8){animation-delay:0.4s}.cat-item:nth-child(9){animation-delay:0.45s}.cat-item:nth-child(10){animation-delay:0.5s}.cat-item:nth-child(11){animation-delay:0.55s}.cat-item:nth-child(12){animation-delay:0.6s}.cat-item:nth-child(13){animation-delay:0.65s}
+        .cat-circle{width:56px;height:56px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:var(--ifood-shadow-card);transition:var(--ifood-transition);position:relative;border:2px solid transparent}
+        .cat-item.active .cat-circle{background:#FFF0EE;border-color:var(--ifood-red);box-shadow:0 6px 20px rgba(234,29,44,0.18);animation:float 2s ease-in-out infinite}
+        .cat-item:hover .cat-circle{transform:translateY(-3px);box-shadow:var(--ifood-shadow-hover)}
+        .cat-label{font-size:0.65rem;font-weight:600;color:var(--ifood-text-secondary);text-align:center;line-height:1.2}
+        .cat-item.active .cat-label{color:var(--ifood-red)}
+
+        /* SECTION HEADER */
+        .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:12px}
+        .section-title{font-size:1.25rem;font-weight:800;color:var(--ifood-dark);letter-spacing:-0.3px}
+        .section-link{font-size:0.8rem;font-weight:700;color:var(--ifood-red);cursor:pointer;text-decoration:none;transition:var(--ifood-transition)}
+        .section-link:hover{text-decoration:underline;transform:translateX(2px)}
+
+        /* OFFERS SCROLL */
+        .offers-scroll{overflow-x:auto;padding-bottom:12px;margin-bottom:28px}
+        .offers-scroll::-webkit-scrollbar{height:4px}.offers-scroll::-webkit-scrollbar-thumb{background:#D1D1D6;border-radius:2px}
+        .offers-row{display:flex;gap:14px}
+        .offer-card{flex-shrink:0;width:290px;background:white;border-radius:var(--ifood-radius-lg);overflow:hidden;box-shadow:var(--ifood-shadow-card);transition:all 0.3s ease;cursor:pointer;display:flex;flex-direction:column;animation:fadeInUp 0.5s ease forwards;opacity:0}
+        .offer-card:nth-child(1){animation-delay:0.1s}.offer-card:nth-child(2){animation-delay:0.2s}.offer-card:nth-child(3){animation-delay:0.3s}.offer-card:nth-child(4){animation-delay:0.4s}.offer-card:nth-child(5){animation-delay:0.5s}
+        .offer-card:hover{box-shadow:var(--ifood-shadow-hover);transform:translateY(-4px)}
+        .offer-img{height:140px;overflow:hidden;position:relative;background:#f0f0f0}
+        .offer-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+        .offer-card:hover .offer-img img{transform:scale(1.06)}
+        .offer-tag{position:absolute;top:12px;left:12px;background:var(--ifood-red);color:white;font-weight:800;font-size:0.7rem;padding:4px 10px;border-radius:6px;box-shadow:0 2px 8px rgba(234,29,44,0.3)}
+        .offer-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+        .offer-name{font-weight:700;font-size:0.88rem;margin-bottom:4px;line-height:1.3}
+        .offer-shop{font-size:0.72rem;color:var(--ifood-text-muted);margin-bottom:10px}
+        .offer-price-row{display:flex;align-items:center;gap:8px}
+        .offer-old-price{text-decoration:line-through;color:var(--ifood-text-muted);font-size:0.75rem}
+        .offer-new-price{font-size:1.2rem;font-weight:900;color:var(--ifood-green)}
+
+        /* COUPONS */
+        .coupons-scroll{overflow-x:auto;padding-bottom:12px;margin-bottom:28px}
+        .coupons-scroll::-webkit-scrollbar{height:4px}.coupons-row{display:flex;gap:14px}
+        .coupon-card{flex-shrink:0;width:260px;background:linear-gradient(135deg,#FFF5F0,#FFEBE4);border:2px dashed #F5B8A8;border-radius:var(--ifood-radius-lg);padding:20px;text-align:center;transition:var(--ifood-transition);animation:fadeInUp 0.5s ease forwards;opacity:0}
+        .coupon-card:nth-child(1){animation-delay:0.1s}.coupon-card:nth-child(2){animation-delay:0.2s}.coupon-card:nth-child(3){animation-delay:0.3s}.coupon-card:nth-child(4){animation-delay:0.4s}.coupon-card:nth-child(5){animation-delay:0.5s}
+        .coupon-card:hover{transform:translateY(-2px);box-shadow:var(--ifood-shadow-hover)}
+        .coupon-code{font-family:'Inter',monospace;font-size:1.3rem;font-weight:900;color:var(--ifood-red);margin:8px 0;letter-spacing:0.5px}
+        .btn-copy{background:var(--ifood-red);color:white;border:none;padding:8px 18px;border-radius:50px;cursor:pointer;font-weight:700;font-size:0.78rem;font-family:'Inter',sans-serif;transition:var(--ifood-transition)}
+        .btn-copy:hover{background:var(--ifood-red-hover);transform:scale(1.04)}
+
+        /* RESULTS */
+        .results-info{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-size:0.85rem;color:var(--ifood-text-secondary);font-weight:600}
+        .results-info .count{background:var(--ifood-red);color:white;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:800}
+
+        /* GRID */
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+        .card{background:white;border-radius:var(--ifood-radius-lg);overflow:hidden;box-shadow:var(--ifood-shadow-card);border:1px solid var(--ifood-border);transition:all 0.3s ease;cursor:pointer;display:flex;flex-direction:column;animation:fadeInUp 0.5s ease forwards;opacity:0}
+        .card:hover{box-shadow:var(--ifood-shadow-hover);transform:translateY(-5px);border-color:#E0E0E0}
+        .card-img{height:170px;overflow:hidden;position:relative;background:#f0f0f0}
+        .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+        .card:hover .card-img img{transform:scale(1.05)}
+        .card-img-overlay{position:absolute;bottom:0;left:0;right:0;height:70px;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent)}
+        .card-badges{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between}
+        .card-badge{padding:4px 10px;border-radius:6px;font-weight:700;font-size:0.68rem;backdrop-filter:blur(10px);display:flex;align-items:center;gap:3px}
+        .badge-rating{background:rgba(0,0,0,0.6);color:#FFD700}.badge-dist{background:rgba(255,255,255,0.9);color:var(--ifood-text)}
+        .badge-open{position:absolute;bottom:12px;right:12px;background:var(--ifood-green);color:white;padding:4px 10px;border-radius:50px;font-weight:700;font-size:0.65rem}
+        .badge-closed{position:absolute;bottom:12px;right:12px;background:#999;color:white;padding:4px 10px;border-radius:50px;font-weight:700;font-size:0.65rem}
+        .card-body{padding:14px 18px 18px;flex:1;display:flex;flex-direction:column}
+        .card-tag{display:inline-block;background:#F5F5F8;padding:3px 9px;border-radius:50px;font-size:0.62rem;font-weight:700;text-transform:uppercase;color:var(--ifood-text-muted);margin-bottom:8px;align-self:flex-start;letter-spacing:0.4px}
+        .card-name{font-weight:800;font-size:0.98rem;margin-bottom:4px;letter-spacing:-0.2px}
+        .card-info{font-size:0.73rem;color:var(--ifood-text-muted);margin-bottom:2px;display:flex;align-items:center;gap:4px}
+        .card-icons{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+        .card-icons .icon-badge{font-size:0.9rem;cursor:pointer;padding:4px 8px;border-radius:50px;background:#f5f5f8;transition:var(--ifood-transition);text-decoration:none;display:inline-flex;align-items:center;gap:3px;font-weight:600;font-size:0.68rem}
+        .card-icons .icon-badge:hover{background:#e8e8ec;transform:translateY(-1px)}
+        .card-icons .icon-badge.zap{color:#25D366}.card-icons .icon-badge.site{color:#1A73E8}.card-icons .icon-badge.menu{color:var(--ifood-purple)}
+        .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px;border-top:1px solid var(--ifood-border)}
+        .card-price{font-weight:600;color:var(--ifood-text-secondary);font-size:0.8rem}
+        .card-price span{color:var(--ifood-green);font-weight:800}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:20px;animation:fadeIn 0.2s ease}
+        .modal-overlay.active{display:flex}
+        .modal{background:white;border-radius:var(--ifood-radius-xl);max-width:750px;width:100%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:var(--ifood-shadow-lg);animation:fadeInUp 0.3s ease}
+        .modal-close{position:sticky;top:14px;float:right;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);color:white;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;margin-right:14px;z-index:10;transition:var(--ifood-transition)}
+        .modal-close:hover{background:rgba(0,0,0,0.7)}
+        .modal-content{padding:20px 24px 28px}
+        .modal-gallery{display:flex;gap:10px;overflow-x:auto;margin-bottom:18px;padding-bottom:8px}
+        .modal-gallery::-webkit-scrollbar{height:3px}.modal-gallery img{width:280px;height:180px;object-fit:cover;border-radius:var(--ifood-radius);flex-shrink:0}
+        .modal h2{font-weight:900;font-size:1.3rem;letter-spacing:-0.3px}
+        .modal-btns{display:flex;gap:8px;margin:14px 0 18px;flex-wrap:wrap}
+        .btn-modal{padding:10px 18px;border-radius:50px;font-weight:700;font-size:0.78rem;text-decoration:none;cursor:pointer;border:none;transition:var(--ifood-transition);display:flex;align-items:center;gap:5px;font-family:'Inter',sans-serif}
+        .btn-modal:hover{transform:translateY(-1px)}
+        .btn-maps{background:#1A73E8;color:white}.btn-waze{background:#33CCFF;color:#1A1A2E}
+        .btn-order{background:#25D366;color:white}.btn-site{background:var(--ifood-purple);color:white}
+        .btn-cardapio{background:var(--ifood-orange);color:white}
+        .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+        .info-item{background:var(--ifood-bg);padding:12px 16px;border-radius:var(--ifood-radius-sm)}
+        .info-item .label{font-size:0.62rem;color:var(--ifood-text-muted);text-transform:uppercase;font-weight:800;letter-spacing:0.5px}
+        .info-item .value{font-weight:700;font-size:0.85rem}
+        .menu-table{width:100%;border-collapse:collapse}.menu-table td{padding:12px 14px;border-bottom:1px solid var(--ifood-border);font-size:0.84rem}
+        .menu-table tr:last-child td{border-bottom:none}.menu-table .price{font-weight:700;color:var(--ifood-green);text-align:right}
+        .btn-add{background:var(--ifood-green);color:white;border:none;padding:6px 14px;border-radius:50px;cursor:pointer;font-weight:700;font-size:0.75rem;transition:var(--ifood-transition);font-family:'Inter',sans-serif}
+        .btn-add:hover{background:#3D8C5F;transform:scale(1.05)}
+
+        /* CART FLOAT */
+        .cart-float{position:fixed;bottom:95px;right:20px;z-index:199;background:white;border-radius:var(--ifood-radius-lg);box-shadow:var(--ifood-shadow-lg);padding:14px 18px;display:none;align-items:center;gap:12px;cursor:pointer;border:1px solid var(--ifood-border);transition:var(--ifood-transition)}
+        .cart-float.visible{display:flex;animation:fadeInUp 0.3s ease}
+        .cart-badge{background:var(--ifood-red);color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem}
+        .cart-total{font-weight:900;color:var(--ifood-green);font-size:0.9rem}
+
+        /* AI ASSISTANT */
+        .ai-assistant{position:fixed;bottom:20px;right:20px;z-index:200}
+        .ai-trigger{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--ifood-purple),#A78BFA);border:none;cursor:pointer;box-shadow:0 8px 28px rgba(124,58,237,0.4);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all 0.3s ease}
+        .ai-trigger:hover{transform:scale(1.08);box-shadow:0 12px 36px rgba(124,58,237,0.5)}
+        .ai-panel{position:absolute;bottom:75px;right:0;width:420px;max-height:520px;background:white;border-radius:var(--ifood-radius-lg);box-shadow:var(--ifood-shadow-lg);display:none;flex-direction:column;overflow:hidden;border:1px solid var(--ifood-border);animation:fadeInUp 0.25s ease}
+        .ai-panel.open{display:flex}
+        .ai-panel-header{padding:14px 18px;background:linear-gradient(135deg,#7C3AED,#6D28D9);color:white;display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.88rem}
+        .ai-messages{flex:1;padding:14px;overflow-y:auto;max-height:320px;display:flex;flex-direction:column;gap:10px;background:#FAFAFC}
+        .ai-msg{padding:10px 14px;border-radius:16px;font-size:0.82rem;max-width:85%;line-height:1.5;animation:fadeInUp 0.2s ease}
+        .ai-msg.user{background:var(--ifood-red);color:white;align-self:flex-end;border-bottom-right-radius:4px}
+        .ai-msg.bot{background:white;color:var(--ifood-text);align-self:flex-start;border:1px solid var(--ifood-border);border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .ai-input-area{padding:12px 14px;border-top:1px solid var(--ifood-border);display:flex;gap:8px;background:white}
+        .ai-input{flex:1;border:2px solid var(--ifood-border);border-radius:50px;padding:10px 16px;font-family:'Inter',sans-serif;font-size:0.84rem;outline:none;transition:var(--ifood-transition)}
+        .ai-input:focus{border-color:var(--ifood-purple)}
+        .ai-btn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;font-size:0.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--ifood-transition)}
+        .ai-send{background:var(--ifood-purple);color:white}.ai-send:hover{background:#5B21B6}
+
+        /* TOAST */
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--ifood-dark);color:white;padding:12px 24px;border-radius:50px;font-weight:700;z-index:500;display:none;box-shadow:var(--ifood-shadow-lg);font-size:0.84rem;font-family:'Inter',sans-serif}
+        .toast.show{display:block;animation:tIn 0.3s ease,tOut 0.3s ease 2.5s forwards}
+        @keyframes tIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        @keyframes tOut{from{opacity:1}to{opacity:0;display:none}}
+
+        /* RESPONSIVE */
+        @media(max-width:768px){
+            .grid{grid-template-columns:1fr}.ai-panel{width:calc(100vw - 20px);right:-5px}
+            .info-grid{grid-template-columns:1fr}.map-container{height:200px}
+            .cat-item{width:64px}.cat-circle{width:48px;height:48px;font-size:1.3rem}
+            .offer-card{width:260px}
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="#" class="topbar-brand"><div class="topbar-logo">🍽️</div><span class="topbar-name">Sabores de Itaquá</span></a>
+        <div class="topbar-actions">
+            <button class="btn-topbar" onclick="toggleAiPanel()">💜 Jennifer</button>
+            <button class="btn-topbar btn-topbar-accent" onclick="getUserLocation()">📍 Localização</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="hero">
+            <div class="hero-badge">🍽️ Itaquaquecetuba</div>
+            <h1>Descubra os <span class="accent">sabores</span> da cidade</h1>
+            <p>Peça delivery, veja cardápios e encontre as melhores lojas perto de você</p>
+        </div>
+
+        <div class="search-row animate-in animate-in-delay-1">
+            <div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="O que você procura? Ex: pizza, mercado, farmácia..." oninput="suggestResults()"><button onclick="applyFilters()">Buscar</button></div>
+            <button class="btn-mic" id="micBtn" onclick="toggleMic()" title="Buscar por voz">🎤</button>
+            <button class="btn-location" id="btnLocation" onclick="getUserLocation()">📍</button>
+        </div>
+
+        <div class="filters-row animate-in animate-in-delay-2">
+            <select class="filter-pill" id="filterRadius" onchange="applyFilters()"><option value="1">📍 1 km</option><option value="3">📍 3 km</option><option value="5">📍 5 km</option><option value="10" selected>📍 10 km</option></select>
+            <select class="filter-pill" id="filterPrice" onchange="applyFilters()"><option value="0" selected>💰 Todos</option><option value="15">💰 Até R$15</option><option value="30">💰 Até R$30</option><option value="55">💰 Até R$55</option><option value="100">💰 Até R$100</option></select>
+            <select class="filter-pill" id="filterRating" onchange="applyFilters()"><option value="0" selected>⭐ Todas</option><option value="4.5">⭐ 4.5+</option><option value="4.0">⭐ 4.0+</option></select>
+            <select class="filter-pill" id="filterOpen" onchange="applyFilters()"><option value="all" selected>🕒 Todos</option><option value="open">🟢 Abertos agora</option></select>
+        </div>
+
+        <div class="map-container animate-in animate-in-delay-3"><iframe id="mapFrame" src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d29286.32888469195!2d-46.36312283947295!3d-23.48173293815494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1srestaurantes%20supermercados%20itaquaquecetuba!5e0!3m2!1spt-BR!2sbr!4v1715000000000" allowfullscreen loading="lazy"></iframe></div>
+
+        <div class="cat-scroll"><div class="cat-row" id="catRow"></div></div>
+
+        <div class="section-header"><h2 class="section-title">🔥 Ofertas imperdíveis</h2><span class="section-link">Ver todas →</span></div>
+        <div class="offers-scroll"><div class="offers-row" id="offersGrid"></div></div>
+
+        <div class="section-header"><h2 class="section-title">🎟️ Cupons ativos</h2></div>
+        <div class="coupons-scroll"><div class="coupons-row" id="couponsGrid"></div></div>
+
+        <div class="section-header"><h2 class="section-title">🏪 Lojas em Itaquá</h2><div class="results-info" id="resultsInfo"></div></div>
+        <div class="grid" id="grid"></div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)"><div class="modal" id="modalContent" onclick="event.stopPropagation()"><button class="modal-close" onclick="closeModal()">✕</button><div class="modal-content" id="modalInner"></div></div></div>
+    <div class="cart-float" id="cartFloat" onclick="finalizarPedido()"><div class="cart-badge" id="cartCount">0</div><div><div style="font-size:0.65rem;color:var(--ifood-text-muted);font-weight:600;">Ver carrinho</div><div class="cart-total" id="cartTotal">R$0,00</div></div><span>→</span></div>
+    <div class="ai-assistant"><div class="ai-panel" id="aiPanel"><div class="ai-panel-header"><span>💜</span> Jennifer</div><div class="ai-messages" id="aiMessages"><div class="ai-msg bot">Oi! Eu sou a Jennifer, sua assistente pessoal de Itaquá. Me pergunte por restaurantes, pizzarias, mercados ou qualquer loja da cidade. 😊</div></div><div class="ai-input-area"><button class="ai-btn ai-voice" id="voiceBtn" onclick="toggleVoice()" style="background:#F0EBFF;">🎤</button><input type="text" class="ai-input" id="aiInput" placeholder="O que você procura?" onkeypress="if(event.key==='Enter')sendAiMessage()"><button class="ai-btn ai-send" onclick="sendAiMessage()">➤</button></div></div><button class="ai-trigger" onclick="toggleAiPanel()">💜</button></div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== BANCO DE DADOS E LÓGICA ====================
+        let userLat=null,userLng=null;const DEFAULT_LAT=-23.4860,DEFAULT_LNG=-46.3510;let cart=[],filtroCat='todos',searchTerm='',filterRadius=10,filterPrice=0,filterRating=0,filterOpen='all';
+
+        // Imagens confiáveis do Unsplash por categoria
+        const defaultImages = {
+            supermercado: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=500&q=80',
+            restaurante: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80',
+            pizzaria: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=80',
+            padaria: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=80',
+            acougue: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&q=80',
+            farmacia: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=500&q=80',
+            lanchonete: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80',
+            pet: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=500&q=80',
+            hortifruti: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&q=80',
+            sorveteria: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=500&q=80',
+            bebidas: 'https://images.unsplash.com/photo-1528823872057-9c018a7a7553?w=500&q=80',
+            conveniencia: 'https://images.unsplash.com/photo-1601599561213-832382fd07ba?w=500&q=80'
+        };
+
+        function generateFullMenu(type){const d={supermercado:[{n:"Arroz Tipo 1 5kg",p:24.90},{n:"Feijão Carioca 1kg",p:8.49},{n:"Óleo de Soja 900ml",p:7.19},{n:"Leite Integral 1L",p:4.79},{n:"Café 500g",p:16.90},{n:"Açúcar 1kg",p:4.29},{n:"Macarrão 500g",p:5.99},{n:"Molho de Tomate 340g",p:3.49},{n:"Sal 1kg",p:2.19},{n:"Farinha de Trigo 1kg",p:5.49}],restaurante:[{n:"Prato Feito Completo",p:21.90},{n:"Feijoada Completa",p:38.00},{n:"Bife à Parmegiana",p:45.00},{n:"Frango Grelhado",p:26.50},{n:"Contra Filé na Chapa",p:34.90},{n:"Omelete Completo",p:19.00},{n:"Salada Caesar",p:24.00},{n:"Suco Natural 500ml",p:8.00},{n:"Filé de Tilápia",p:36.90},{n:"Strogonoff de Frango",p:29.90}],pizzaria:[{n:"Pizza Grande Calabresa",p:42.00},{n:"Pizza Grande Margherita",p:40.00},{n:"Pizza Grande Portuguesa",p:48.00},{n:"Pizza 4 Queijos",p:50.00},{n:"Pizza Frango c/ Catupiry",p:46.00},{n:"Pizza Doce Brigadeiro",p:44.00},{n:"Borda Recheada",p:8.00},{n:"Esfiha Aberta",p:5.50},{n:"Refrigerante 2L",p:12.00},{n:"Cerveja Long Neck",p:9.00}],padaria:[{n:"Pão Francês (kg)",p:14.90},{n:"Pão de Queijo (un)",p:3.50},{n:"Croissant",p:7.90},{n:"Bolo de Fubá (fatia)",p:6.00},{n:"Sonho de Creme",p:5.50},{n:"Coxinha de Frango",p:6.00},{n:"Pastel de Carne",p:7.00},{n:"Café Expresso",p:4.50},{n:"Cappuccino",p:7.00},{n:"Misto Quente",p:8.00}],acougue:[{n:"Picanha (kg)",p:79.90},{n:"Alcatra (kg)",p:44.90},{n:"Contra Filé (kg)",p:49.90},{n:"Patinho Moído (kg)",p:36.90},{n:"Frango Inteiro (kg)",p:12.90},{n:"Linguiça Toscana (kg)",p:22.90},{n:"Costela Bovina (kg)",p:34.90},{n:"Kit Churrasco 5kg",p:189.90},{n:"Bacon Fatiado (kg)",p:42.90},{n:"Carne Moída 1ª (kg)",p:32.90}],farmacia:[{n:"Dipirona Gotas 20ml",p:6.90},{n:"Paracetamol 750mg",p:11.20},{n:"Ibuprofeno 600mg",p:12.50},{n:"Protetor Solar FPS 50",p:45.00},{n:"Creme Nivea 400ml",p:28.90},{n:"Shampoo 400ml",p:19.90},{n:"Desodorante Dove",p:16.90},{n:"Pasta de Dente",p:5.90},{n:"Fralda Pampers M",p:79.90},{n:"Álcool em Gel 500ml",p:9.90}],lanchonete:[{n:"Hambúrguer Smash 180g",p:28.00},{n:"X-Bacon Artesanal",p:32.00},{n:"X-Salada",p:22.00},{n:"X-Tudo",p:36.00},{n:"Batata Frita Porção",p:18.00},{n:"Batata c/ Cheddar",p:24.00},{n:"Nuggets (12 un)",p:19.00},{n:"Milkshake 400ml",p:16.00},{n:"Açaí Copo 500ml",p:18.00},{n:"Wrap de Frango",p:24.00}],pet:[{n:"Ração Golden 15kg",p:119.90},{n:"Ração Whiskas 10kg",p:89.90},{n:"Ração Royal Canin 3kg",p:79.90},{n:"Sachê Pedigree",p:3.90},{n:"Shampoo Pet 500ml",p:18.90},{n:"Areia Sanitária 4kg",p:15.00},{n:"Tapete Higiênico 30un",p:34.90},{n:"Coleira Ajustável",p:24.90},{n:"Brinquedo Mordedor",p:22.00},{n:"Antipulgas",p:54.90}],hortifruti:[{n:"Banana Prata (kg)",p:5.99},{n:"Maçã Gala (kg)",p:8.90},{n:"Laranja Pera (kg)",p:4.50},{n:"Alface Crespa (un)",p:3.00},{n:"Tomate Italiano (kg)",p:7.90},{n:"Batata Inglesa (kg)",p:5.50},{n:"Cebola (kg)",p:4.90},{n:"Cenoura (kg)",p:4.50},{n:"Abacaxi (un)",p:7.00},{n:"Mamão Formosa (kg)",p:8.90}],sorveteria:[{n:"Casquinha Baunilha",p:6.00},{n:"Casquinha Mista",p:7.00},{n:"Sundae de Chocolate",p:15.00},{n:"Milk Shake 400ml",p:16.00},{n:"Açaí Copo 300ml",p:14.00},{n:"Açaí Copo 500ml",p:22.00},{n:"Picolé Artesanal",p:8.00},{n:"Pote Sorvete 1L",p:22.00},{n:"Banana Split",p:18.00},{n:"Gelato Italiano",p:12.00}],bebidas:[{n:"Cerveja Brahma Lata",p:3.29},{n:"Cerveja Heineken 600ml",p:8.90},{n:"Cerveja Artesanal IPA",p:18.00},{n:"Vinho Tinto 750ml",p:29.90},{n:"Vodka Smirnoff 1L",p:45.00},{n:"Whisky Red Label 1L",p:99.00},{n:"Coca-Cola 2L",p:9.49},{n:"Energético Monster",p:12.00},{n:"Água Tônica",p:4.00},{n:"Suco Integral 1L",p:14.00}],conveniencia:[{n:"Café Expresso",p:4.00},{n:"Salgadinho Assado",p:6.00},{n:"Chocolate Barra",p:8.00},{n:"Água Mineral 500ml",p:2.50},{n:"Refrigerante Lata",p:5.00},{n:"Cerveja Lata",p:4.50},{n:"Cigarro Maço",p:10.00},{n:"Isqueiro",p:5.00},{n:"Gelo 5kg",p:12.00}]};return d[type]||d.restaurante;}
+
+        const bairros=[{n:"Centro",lat:-23.4860,lng:-46.3510},{n:"Vila Ursulina",lat:-23.4855,lng:-46.3490},{n:"Jardim Odete",lat:-23.4905,lng:-46.3450},{n:"Jardim São Paulo",lat:-23.4920,lng:-46.3440},{n:"Nova Itaquá",lat:-23.4815,lng:-46.3560},{n:"Jardim Caiubi",lat:-23.5030,lng:-46.3240},{n:"Monte Belo",lat:-23.4950,lng:-46.3575},{n:"Jardim Ranieri",lat:-23.4685,lng:-46.3325},{n:"Vila Gepina",lat:-23.4790,lng:-46.3355},{n:"Jardim Alpes",lat:-23.4620,lng:-46.3545},{n:"Jardim Maragogipe",lat:-23.4800,lng:-46.3300},{n:"Jardim Niceia",lat:-23.4995,lng:-46.3400},{n:"Vila Bartira",lat:-23.4880,lng:-46.3545},{n:"Jardim Louzada",lat:-23.4780,lng:-46.3610},{n:"Jardim Primavera",lat:-23.4660,lng:-46.3410},{n:"Jardim Adriane",lat:-23.4720,lng:-46.3480},{n:"Estação",lat:-23.4830,lng:-46.3530},{n:"Vila Virgínia",lat:-23.4845,lng:-46.3495},{n:"Jardim Itapuã",lat:-23.4750,lng:-46.3375},{n:"Jardim Amazonas",lat:-23.4705,lng:-46.3445}];
+
+        function hash(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;}return Math.abs(h);}
+
+        const shopsBase=[{id:1,nome:"Supermercado Takahashi",categoria:"supermercado",tag:"Supermercado",endereco:"Av. Ítalo Adami, 800",telefone:"(11) 2500-6070",whatsapp:"551125006070",rating:4.5,reviews:520,abre:"08:00",fecha:"22:00",horario:"Seg-Sáb 08:00-22:00",delivery:true,wifi:true,precoMedio:15,lat:-23.4862,lng:-46.3490,fotos:[defaultImages.supermercado],menu:generateFullMenu('supermercado'),temSite:true,siteUrl:"https://www.takahashi.com.br",temCardapioVirtual:false},{id:2,nome:"Supermercados Nagumo",categoria:"supermercado",tag:"Supermercado",endereco:"Estrada de São Bento, 549",telefone:"(11) 2450-2370",whatsapp:"551124502370",rating:4.4,reviews:450,abre:"07:00",fecha:"22:00",horario:"07:00 às 22:00",delivery:true,wifi:true,precoMedio:14,lat:-23.4900,lng:-46.3460,fotos:[defaultImages.supermercado],menu:generateFullMenu('supermercado'),temSite:true,siteUrl:"https://www.nagumo.com.br"},{id:3,nome:"Assaí Atacadista",categoria:"supermercado",tag:"Atacadista",endereco:"Rod. João Afonso, 3810",telefone:"(11) 4642-8580",whatsapp:"551146428580",rating:4.3,reviews:890,abre:"07:00",fecha:"22:00",horario:"07:00 às 22:00",delivery:false,wifi:true,precoMedio:12,lat:-23.4830,lng:-46.3580,fotos:[defaultImages.supermercado],menu:generateFullMenu('supermercado'),temSite:true,siteUrl:"https://www.assai.com.br"},{id:4,nome:"Reilar Supermercados",categoria:"supermercado",tag:"Supermercado",endereco:"Av. Emancipação, 320",telefone:"(11) 4640-3000",whatsapp:"551146403000",rating:4.2,reviews:290,abre:"07:00",fecha:"21:30",horario:"07:00 às 21:30",delivery:true,wifi:false,precoMedio:13,lat:-23.4870,lng:-46.3520,fotos:[defaultImages.supermercado]},{id:5,nome:"Roda D'Água Restaurante",categoria:"restaurante",tag:"Restaurante",endereco:"Estr. do Pinheirinho Novo, 2036",telefone:"(11) 4648-1234",whatsapp:"551146481234",rating:4.2,reviews:94,abre:"11:00",fecha:"22:00",horario:"11:00 às 22:00",delivery:false,wifi:true,precoMedio:35,lat:-23.4610,lng:-46.3550,fotos:[defaultImages.restaurante],menu:generateFullMenu('restaurante'),temSite:true,siteUrl:"https://www.rodadagua.com.br",temCardapioVirtual:true,cardapioUrl:"https://cardapio.digital/roda-dagua"},{id:6,nome:"Recanto do Morais",categoria:"restaurante",tag:"Restaurante",endereco:"Rua Tiradentes, 450",telefone:"(11) 4647-5500",whatsapp:"551146475500",rating:4.6,reviews:142,abre:"11:00",fecha:"15:30",horario:"11:00 às 15:30",delivery:true,wifi:true,precoMedio:28,lat:-23.4855,lng:-46.3505,fotos:[defaultImages.restaurante],menu:generateFullMenu('restaurante'),temCardapioVirtual:true,cardapioUrl:"https://cardapio.digital/recanto-morais"},{id:7,nome:"Churrascaria Novilho de Ouro",categoria:"restaurante",tag:"Churrascaria",endereco:"Av. Ítalo Adami, 1200",telefone:"(11) 4642-7890",whatsapp:"551146427890",rating:4.5,reviews:210,abre:"11:30",fecha:"23:00",horario:"11:30 às 23:00",delivery:false,wifi:true,precoMedio:55,lat:-23.4840,lng:-46.3470,fotos:[defaultImages.restaurante],menu:generateFullMenu('restaurante'),temSite:true,siteUrl:"https://www.novilhodeouro.com.br",temCardapioVirtual:true,cardapioUrl:"https://cardapio.digital/novilho-ouro"},{id:8,nome:"Kayama Sushi",categoria:"restaurante",tag:"Japonês",endereco:"Av. Ítalo Adami, 600",telefone:"(11) 4642-1188",whatsapp:"551146421188",rating:4.5,reviews:120,abre:"11:30",fecha:"22:30",horario:"11:30 às 22:30",delivery:true,wifi:true,precoMedio:40,lat:-23.4858,lng:-46.3495,fotos:[defaultImages.restaurante],menu:[{n:"Combo Sashimi 15",p:42},{n:"Combo Sushi 20",p:38},{n:"Temaki Salmão",p:22},{n:"Hot Roll 8 un",p:28},{n:"Yakisoba",p:32},{n:"Guioza 5 un",p:18}],temCardapioVirtual:true,cardapioUrl:"https://cardapio.digital/kayama"},{id:9,nome:"DonaStella Pizzaria",categoria:"pizzaria",tag:"Pizzaria",endereco:"Rua Bela Vista, 120",telefone:"(11) 4642-8157",whatsapp:"551146428157",rating:4.6,reviews:340,abre:"18:00",fecha:"23:30",horario:"18:00 às 23:30",delivery:true,wifi:true,precoMedio:45,lat:-23.4868,lng:-46.3512,fotos:[defaultImages.pizzaria],menu:generateFullMenu('pizzaria'),temSite:true,siteUrl:"https://www.donastella.com.br",temCardapioVirtual:true,cardapioUrl:"https://cardapio.digital/donastella"},{id:10,nome:"Padaria Aritana 24h",categoria:"padaria",tag:"Padaria 24h",endereco:"Rua Cap. José Leite, 400",telefone:"(11) 4640-5678",whatsapp:"551146405678",rating:4.5,reviews:320,abre:"00:00",fecha:"23:59",horario:"24 horas",delivery:true,wifi:true,precoMedio:12,lat:-23.4860,lng:-46.3510,fotos:[defaultImages.padaria],menu:generateFullMenu('padaria')},{id:11,nome:"Drogaria São Paulo",categoria:"farmacia",tag:"Farmácia",endereco:"Rua Cap. José Leite, 160",telefone:"(11) 4640-2208",whatsapp:"551146402208",rating:4.3,reviews:380,abre:"07:00",fecha:"23:00",horario:"07:00 às 23:00",delivery:true,wifi:true,precoMedio:15,lat:-23.4867,lng:-46.3513,fotos:[defaultImages.farmacia],menu:generateFullMenu('farmacia'),temSite:true,siteUrl:"https://www.drogariasaopaulo.com.br"},{id:12,nome:"CHILI Burger",categoria:"lanchonete",tag:"Hamburgueria",endereco:"Rua Tiradentes, 320",telefone:"(11) 4647-8800",whatsapp:"551146478800",rating:4.7,reviews:250,abre:"17:00",fecha:"23:00",horario:"17:00 às 23:00",delivery:true,wifi:true,precoMedio:32,lat:-23.4858,lng:-46.3508,fotos:[defaultImages.lanchonete],menu:generateFullMenu('lanchonete'),temSite:true,siteUrl:"https://www.chiliburger.com.br",temCardapioVirtual:true,cardapioUrl:"https://cardapio.digital/chili"},{id:13,nome:"Açougue do João",categoria:"acougue",tag:"Açougue",endereco:"Rua Nazaré Paulista, 88",telefone:"(11) 4647-1122",whatsapp:"551146471122",rating:4.7,reviews:180,abre:"07:00",fecha:"19:00",horario:"07:00 às 19:00",delivery:true,wifi:false,precoMedio:38,lat:-23.4940,lng:-46.3420,fotos:[defaultImages.acougue],menu:generateFullMenu('acougue')},{id:14,nome:"Pet Miguel",categoria:"pet",tag:"Pet Shop",endereco:"Av. Eldorado, 1103",telefone:"(11) 4641-5566",whatsapp:"551146415566",rating:4.6,reviews:120,abre:"09:00",fecha:"20:00",horario:"09:00 às 20:00",delivery:true,wifi:true,precoMedio:30,lat:-23.4790,lng:-46.3350,fotos:[defaultImages.pet],menu:generateFullMenu('pet')},{id:15,nome:"Hortifruti Natural Center",categoria:"hortifruti",tag:"Hortifruti",endereco:"Av. Emancipação, 250",telefone:"(11) 4640-5500",whatsapp:"551146405500",rating:4.3,reviews:150,abre:"06:30",fecha:"20:00",horario:"06:30 às 20:00",delivery:true,wifi:false,precoMedio:10,lat:-23.4865,lng:-46.3518,fotos:[defaultImages.hortifruti],menu:generateFullMenu('hortifruti')},{id:16,nome:"Sorveteria Itália",categoria:"sorveteria",tag:"Sorveteria",endereco:"Av. Emancipação, 300",telefone:"(11) 4640-5500",whatsapp:"551146405500",rating:4.5,reviews:200,abre:"12:00",fecha:"22:00",horario:"12:00 às 22:00",delivery:true,wifi:true,precoMedio:14,lat:-23.4865,lng:-46.3518,fotos:[defaultImages.sorveteria],menu:generateFullMenu('sorveteria')},{id:17,nome:"Adega do Portuga",categoria:"bebidas",tag:"Adega",endereco:"Rua Cap. José Leite, 700",telefone:"(11) 4640-4400",whatsapp:"551146404400",rating:4.2,reviews:130,abre:"10:00",fecha:"22:00",horario:"10:00 às 22:00",delivery:true,wifi:false,precoMedio:20,lat:-23.4858,lng:-46.3508,fotos:[defaultImages.bebidas],menu:generateFullMenu('bebidas')},{id:18,nome:"Mini Mercado 24h",categoria:"conveniencia",tag:"Conveniência 24h",endereco:"Rua Tiradentes, 50",telefone:"(11) 4647-5500",whatsapp:"551146475500",rating:4.1,reviews:170,abre:"00:00",fecha:"23:59",horario:"24 horas",delivery:true,wifi:false,precoMedio:8,lat:-23.4862,lng:-46.3510,fotos:[defaultImages.conveniencia],menu:generateFullMenu('conveniencia')}];
+
+        function generateExtraShops(startId,count){
+            const cats=['supermercado','restaurante','pizzaria','padaria','acougue','farmacia','lanchonete','pet','hortifruti','sorveteria','bebidas','conveniencia'];
+            const shops=[];
+            for(let i=0;i<count;i++){
+                const id=startId+i;const cat=cats[hash('cat'+id)%cats.length];const b=bairros[hash('bairro'+id)%bairros.length];
+                const nomes=['Bom Sabor','Nova Era','Casa & Cia','Ponto Certo','Sabor Caseiro','Delícias','Estrela','Primor','Tradição','Central'];
+                const nome=`${nomes[hash('n'+id)%10]} ${cat.charAt(0).toUpperCase()+cat.slice(1)}`;
+                const dd=11;const f=4000+hash('f'+id)%6000;const tel=`(${dd}) ${String(f).slice(0,4)}-${String(f).slice(4)}`;
+                const whats=`55${dd}${f}`;const rating=3.5+(hash('r'+id)%20)/10;
+                const reviews=10+hash('rev'+id)%500;const ah=6+hash('ah'+id)%6;const fh=18+hash('fh'+id)%6;
+                const abre=`${String(ah).padStart(2,'0')}:00`;const fecha=`${String(fh).padStart(2,'0')}:00`;
+                const horario=`${abre} às ${fecha}`;const delivery=hash('del'+id)%3>0;
+                const wifi=hash('wifi'+id)%4===0;const precoMedio=[8,10,12,15,18,22,25,30,35,40,45][hash('pr'+id)%11];
+                const temSite=hash('site'+id)%5===0;const siteUrl=temSite?`https://www.${nome.toLowerCase().replace(/\s+/g,'')}.com.br`:null;
+                const temCard=(cat==='restaurante'||cat==='pizzaria'||cat==='lanchonete'||cat==='padaria')&&hash('card'+id)%3===0;
+                const cardUrl=temCard?`https://cardapio.digital/${nome.toLowerCase().replace(/\s+/g,'-')}`:null;
+                const imgUrl=defaultImages[cat]||defaultImages.restaurante;
+                shops.push({id,nome,tag:cat.charAt(0).toUpperCase()+cat.slice(1),categoria:cat,endereco:`${b.n}, ${100+hash('num'+id)%2500}`,telefone:tel,whatsapp:whats,rating,reviews,abre,fecha,horario,delivery,wifi,precoMedio,lat:b.lat+(hash('lat'+id)%20-10)*0.002,lng:b.lng+(hash('lng'+id)%20-10)*0.002,fotos:[imgUrl],menu:generateFullMenu(cat),temSite,siteUrl,temCardapioVirtual:temCard,cardapioUrl:cardUrl});
+            }
+            return shops;
+        }
+
+        const shops=[...shopsBase,...generateExtraShops(100,282)];
+        const offers=[{id:101,shopId:9,nome:"Combo Pizza Grande + Refri 2L",precoAntigo:60,precoNovo:46.90,desc:"22%",foto:defaultImages.pizzaria,validade:"Domingo"},{id:102,shopId:12,nome:"Combo Smash Burger + Batata",precoAntigo:56,precoNovo:42.90,desc:"23%",foto:defaultImages.lanchonete,validade:"Quarta"},{id:103,shopId:3,nome:"Kit Básico Arroz+Feijão+Óleo",precoAntigo:40.59,precoNovo:32.90,desc:"19%",foto:defaultImages.supermercado,validade:"Sábado"},{id:104,shopId:10,nome:"Café + Pão na Chapa + Suco",precoAntigo:19.50,precoNovo:14.90,desc:"24%",foto:defaultImages.padaria,validade:"Todos os dias"},{id:105,shopId:13,nome:"Kit Churrasco 5kg",precoAntigo:219.90,precoNovo:189.90,desc:"14%",foto:defaultImages.acougue,validade:"Sex-Sáb"}];
+        const coupons=[{codigo:"ITAQUA10",desc:"R$10 OFF no primeiro pedido",min:50},{codigo:"JENNIFER",desc:"Frete Grátis pela Jennifer",min:30},{codigo:"SABOR20",desc:"R$20 OFF acima de R$100",min:100},{codigo:"PIZZA15",desc:"15% OFF em pizzarias",min:40},{codigo:"HORTI5",desc:"R$5 OFF no hortifruti",min:25}];
+
+        const catsConfig=[{id:'todos',icon:'🏪',label:'Todos'},{id:'supermercado',icon:'🛒',label:'Mercado'},{id:'restaurante',icon:'🍽️',label:'Restaurante'},{id:'pizzaria',icon:'🍕',label:'Pizza'},{id:'lanchonete',icon:'🍔',label:'Lanche'},{id:'padaria',icon:'🥖',label:'Padaria'},{id:'acougue',icon:'🥩',label:'Açougue'},{id:'farmacia',icon:'💊',label:'Farmácia'},{id:'pet',icon:'🐾',label:'Pet'},{id:'hortifruti',icon:'🥬',label:'Hortifruti'},{id:'sorveteria',icon:'🍦',label:'Sorvete'},{id:'bebidas',icon:'🍻',label:'Bebidas'},{id:'conveniencia',icon:'🏪',label:'Conveniência'}];
+
+        function renderCategories(){
+            document.getElementById('catRow').innerHTML=catsConfig.map(c=>`<div class="cat-item${filtroCat===c.id?' active':''}" data-cat="${c.id}" onclick="setCategory('${c.id}',this)"><div class="cat-circle">${c.icon}</div><span class="cat-label">${c.label}</span></div>`).join('');
+        }
+
+        function showToast(msg){const t=document.getElementById('toast');t.innerText=msg;t.classList.remove('show');void t.offsetWidth;t.classList.add('show');}
+        function toggleAiPanel(){document.getElementById('aiPanel').classList.toggle('open');}
+        function closeModal(){document.getElementById('modalOverlay').classList.remove('active');}
+        function closeModalOutside(e){if(e.target.id==='modalOverlay')closeModal();}
+        function renderOffers(){document.getElementById('offersGrid').innerHTML=offers.map(o=>{const s=shops.find(x=>x.id===o.shopId)||shops[0];return`<div class="offer-card" onclick="openShop(${s.id})"><div class="offer-img"><img src="${o.foto}" alt="${o.nome}" onerror="this.src='${defaultImages.restaurante}'"><span class="offer-tag">-${o.desc}</span></div><div class="offer-body"><div class="offer-name">${o.nome}</div><div class="offer-shop">${s.nome}</div><div class="offer-price-row"><span class="offer-old-price">R$${o.precoAntigo.toFixed(2)}</span><span class="offer-new-price">R$${o.precoNovo.toFixed(2)}</span></div><div style="font-size:0.68rem;color:var(--ifood-text-muted);margin-top:2px;">Válido: ${o.validade}</div></div></div>`;}).join('');}
+        function renderCoupons(){document.getElementById('couponsGrid').innerHTML=coupons.map(c=>`<div class="coupon-card"><div style="font-weight:700;font-size:0.82rem;">${c.desc}</div><div class="coupon-code">${c.codigo}</div><div style="font-size:0.68rem;color:var(--ifood-text-muted);margin-bottom:6px;">Mínimo: R$${c.min.toFixed(2)}</div><button class="btn-copy" onclick="copyCoupon('${c.codigo}')">Copiar cupom</button></div>`).join('');}
+        function copyCoupon(code){navigator.clipboard.writeText(code).then(()=>showToast(`Cupom ${code} copiado!`));}
+        function setCategory(cat,el){filtroCat=cat;document.querySelectorAll('.cat-item').forEach(c=>c.classList.remove('active'));if(el)el.classList.add('active');applyFilters();}
+        function suggestResults(){searchTerm=document.getElementById('searchInput').value.toLowerCase();applyFilters();}
+        function checkOpen(abre,fecha){if(abre==="00:00"&&fecha==="23:59")return true;const n=new Date();const h=String(n.getHours()).padStart(2,'0')+":"+String(n.getMinutes()).padStart(2,'0');return(h>=abre&&h<=fecha);}
+        function deg2rad(deg){return deg*(Math.PI/180);}
+        function getDistance(lat1,lon1,lat2,lon2){const R=6371;const dLat=deg2rad(lat2-lat1);const dLon=deg2rad(lon2-lon1);const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.sin(dLon/2)*Math.sin(dLon/2);return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));}
+        function applyFilters(){
+            filterRadius=parseInt(document.getElementById('filterRadius').value);filterPrice=parseFloat(document.getElementById('filterPrice').value);filterRating=parseFloat(document.getElementById('filterRating').value);filterOpen=document.getElementById('filterOpen').value;
+            const baseLat=userLat!==null?userLat:DEFAULT_LAT;const baseLng=userLng!==null?userLng:DEFAULT_LNG;
+            let res=shops.filter(s=>{s.dist=getDistance(baseLat,baseLng,s.lat,s.lng);if(s.dist>filterRadius)return false;if(filtroCat!=='todos'&&s.categoria!==filtroCat)return false;if(searchTerm&&!s.nome.toLowerCase().includes(searchTerm)&&!s.tag.toLowerCase().includes(searchTerm)&&!s.categoria.toLowerCase().includes(searchTerm))return false;if(filterRating>0&&s.rating<filterRating)return false;if(filterPrice>0&&s.precoMedio>filterPrice)return false;if(filterOpen==='open'&&!checkOpen(s.abre,s.fecha))return false;return true;});
+            res.sort((a,b)=>a.dist-b.dist);renderShops(res,filterRadius);
+        }
+        function renderShops(list,raioAtual){
+            const container=document.getElementById('grid'),info=document.getElementById('resultsInfo');
+            if(list.length===0){info.innerHTML=`<span class="count">0</span> Nenhuma loja no raio de ${raioAtual} km`;container.innerHTML="";return;}
+            info.innerHTML=`<span class="count">${list.length}</span> lojas encontradas`;
+            container.innerHTML=list.map((s,idx)=>{
+                const aberto=checkOpen(s.abre,s.fecha);
+                let iconsHtml='';
+                if(s.temSite&&s.siteUrl)iconsHtml+=`<a href="${s.siteUrl}" target="_blank" class="icon-badge site" onclick="event.stopPropagation()" title="Site">🌐 Site</a>`;
+                if(s.whatsapp)iconsHtml+=`<a href="https://wa.me/${s.whatsapp}" target="_blank" class="icon-badge zap" onclick="event.stopPropagation()" title="WhatsApp">💬 Zap</a>`;
+                if(s.temCardapioVirtual&&s.cardapioUrl)iconsHtml+=`<a href="${s.cardapioUrl}" target="_blank" class="icon-badge menu" onclick="event.stopPropagation()" title="Cardápio Virtual">📋 Cardápio</a>`;
+                return`<div class="card" style="animation-delay:${idx*0.03}s" onclick="openShop(${s.id})"><div class="card-img"><img src="${s.fotos[0]}" alt="${s.nome}" loading="lazy" onerror="this.src='${defaultImages.restaurante}'"><div class="card-img-overlay"></div><div class="card-badges"><span class="card-badge badge-rating">⭐ ${s.rating.toFixed(1)}</span><span class="card-badge badge-dist">📍 ${s.dist.toFixed(1)} km</span></div><span class="${aberto?'badge-open':'badge-closed'}">${aberto?'🟢 Aberto':'🔴 Fechado'}</span></div><div class="card-body"><span class="card-tag">${s.tag}</span><div class="card-name">${s.nome}</div><div class="card-info">🕒 ${s.horario}</div><div class="card-info" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">📍 ${s.endereco}</div>${iconsHtml?`<div class="card-icons">${iconsHtml}</div>`:''}<div class="card-footer"><span class="card-price">Preço médio: <span>R$ ${s.precoMedio.toFixed(2)}</span></span></div></div></div>`;
+            }).join('');
+        }
+        function openShop(id){
+            const s=shops.find(x=>x.id===id);if(!s)return;
+            let menuRows=s.menu.map(m=>`<tr><td><strong>${m.n}</strong></td><td class="price">R$ ${m.p.toFixed(2)}</td><td style="width:50px;text-align:right;"><button class="btn-add" onclick="addToCart('${s.nome.replace(/'/g,"\\'")}','${m.n.replace(/'/g,"\\'")}',${m.p},event)">＋</button></td></tr>`).join('');
+            let extraBtns='';
+            if(s.whatsapp)extraBtns+=`<a class="btn-modal btn-order" target="_blank" href="https://wa.me/${s.whatsapp}?text=Olá!%20Vim%20pelo%20Sabores%20de%20Itaquá">💬 WhatsApp</a>`;
+            if(s.temSite&&s.siteUrl)extraBtns+=`<a class="btn-modal btn-site" target="_blank" href="${s.siteUrl}">🌐 Site</a>`;
+            if(s.temCardapioVirtual&&s.cardapioUrl)extraBtns+=`<a class="btn-modal btn-cardapio" target="_blank" href="${s.cardapioUrl}">📋 Cardápio Virtual</a>`;
+            document.getElementById('modalInner').innerHTML=`<div class="modal-gallery">${s.fotos.map(f=>`<img src="${f}" loading="lazy" onerror="this.src='${defaultImages.restaurante}'">`).join('')}</div><div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;"><div><h2>${s.nome}</h2><span class="card-tag">${s.tag}</span></div><div style="text-align:right;font-weight:900;color:var(--ifood-star);font-size:1.1rem;">⭐ ${s.rating}</div></div><div class="modal-stars">📍 ${s.dist?s.dist.toFixed(2)+' km':'calculando...'} • ${s.reviews} avaliações</div><div class="modal-btns"><a class="btn-modal btn-maps" target="_blank" href="https://maps.google.com/?q=${encodeURIComponent(s.nome+' '+s.endereco)}">📍 Maps</a><a class="btn-modal btn-waze" target="_blank" href="https://waze.com/ul?q=${encodeURIComponent(s.nome+' '+s.endereco)}">🚗 Waze</a>${extraBtns}</div><div class="info-grid"><div class="info-item"><div class="label">Telefone</div><div class="value">${s.telefone}</div></div><div class="info-item"><div class="label">Horário</div><div class="value">${s.horario}</div></div><div class="info-item" style="grid-column:span 2;"><div class="label">Endereço</div><div class="value">${s.endereco}</div></div></div><h3 style="font-weight:800;font-size:1rem;margin-bottom:10px;">📋 Cardápio</h3><table class="menu-table">${menuRows}</table>`;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+        function addToCart(shopName,itemName,price,event){if(event)event.stopPropagation();cart.push({shop:shopName,item:itemName,price:price});updateCart();showToast(`➕ ${itemName} adicionado!`);}
+        function updateCart(){const count=cart.length,total=cart.reduce((acc,c)=>acc+c.price,0);const btn=document.getElementById('cartFloat');if(count>0){btn.classList.add('visible');document.getElementById('cartCount').innerText=count;document.getElementById('cartTotal').innerText=`R$ ${total.toFixed(2)}`;}else{btn.classList.remove('visible');}}
+        function finalizarPedido(){if(cart.length===0)return;let text=`*Novo Pedido - Sabores de Itaquá*\n\n`;let currentShop=cart[0].shop;text+=`🏪 *${currentShop}*\n`;cart.forEach((c)=>{text+=`• ${c.item} - R$ ${c.price.toFixed(2)}\n`;});const total=cart.reduce((acc,c)=>acc+c.price,0);text+=`\n💰 *Total: R$ ${total.toFixed(2)}*`;const match=shops.find(s=>s.nome===currentShop);const targetWhatsapp=match?match.whatsapp:"5511946000000";window.open(`https://wa.me/${targetWhatsapp}?text=${encodeURIComponent(text)}`);cart=[];updateCart();}
+        function getUserLocation(){if(navigator.geolocation){showToast("📍 Obtendo localização...");navigator.geolocation.getCurrentPosition((position)=>{userLat=position.coords.latitude;userLng=position.coords.longitude;document.getElementById('btnLocation').classList.add('active');document.getElementById('mapFrame').src=`https://maps.google.com/maps?q=${userLat},${userLng}&z=14&output=embed`;showToast("✅ Localização ativada!");applyFilters();},()=>{showToast("⚠️ GPS indisponível");useDefaultLocation();});}else{useDefaultLocation();}}
+        function useDefaultLocation(){userLat=DEFAULT_LAT;userLng=DEFAULT_LNG;document.getElementById('mapFrame').src=`https://maps.google.com/maps?q=${userLat},${userLng}&z=14&output=embed`;applyFilters();}
+
+        // Voz humana melhorada da Jennifer
+        let jenniferVoice=null;let voiceQueue=[];let isSpeaking=false;
+        function loadJenniferVoice(){
+            const voices=window.speechSynthesis.getVoices();
+            const found=voices.find(v=>v.lang==='pt-BR'&&v.name.toLowerCase().includes('female'))||voices.find(v=>v.lang==='pt-BR'&&v.name.toLowerCase().includes('feminina'))||voices.find(v=>v.lang==='pt-BR')||voices.find(v=>v.lang.startsWith('pt'));
+            if(found)jenniferVoice=found;
+        }
+        function speakText(text){
+            if(!('speechSynthesis' in window))return;
+            voiceQueue.push(text);
+            if(!isSpeaking)processVoiceQueue();
+        }
+        function processVoiceQueue(){
+            if(voiceQueue.length===0){isSpeaking=false;return;}
+            isSpeaking=true;
+            const text=voiceQueue.shift();
+            const sentences=text.match(/[^.!?]+[.!?]+/g)||[text];
+            let delay=0;
+            sentences.forEach((sentence,i)=>{
+                setTimeout(()=>{
+                    const utterance=new SpeechSynthesisUtterance(sentence.trim());
+                    utterance.lang='pt-BR';
+                    utterance.rate=0.92+(Math.random()*0.08);
+                    utterance.pitch=1.08+(Math.random()*0.08);
+                    utterance.volume=0.9;
+                    if(jenniferVoice)utterance.voice=jenniferVoice;
+                    if(i===sentences.length-1)utterance.onend=processVoiceQueue;
+                    window.speechSynthesis.speak(utterance);
+                },delay);
+                delay+=sentence.length*50;
+            });
+            if(sentences.length===0)processVoiceQueue();
+        }
+        if('speechSynthesis' in window){window.speechSynthesis.onvoiceschanged=loadJenniferVoice;loadJenniferVoice();}
+
+        let recognition=null;if('webkitSpeechRecognition' in window||'SpeechRecognition' in window){const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;recognition=new SpeechRec();recognition.continuous=false;recognition.lang='pt-BR';}
+        function toggleMic(){if(!recognition){showToast("Microfone indisponível");return;}const btn=document.getElementById('micBtn');if(btn.classList.contains('listening')){recognition.stop();return;}btn.classList.add('listening');recognition.start();recognition.onresult=(e)=>{const text=e.results[0][0].transcript;document.getElementById('searchInput').value=text;searchTerm=text.toLowerCase();applyFilters();processAiInput(text);};recognition.onend=()=>btn.classList.remove('listening');}
+        function toggleVoice(){if(!recognition){showToast("Microfone indisponível");return;}const btn=document.getElementById('voiceBtn');if(btn.classList.contains('listening')){recognition.stop();return;}btn.classList.add('listening');recognition.start();recognition.onresult=(e)=>{const text=e.results[0][0].transcript;document.getElementById('aiInput').value=text;sendAiMessage();};recognition.onend=()=>btn.classList.remove('listening');}
+        function addAiMsg(text,sender){const box=document.getElementById('aiMessages');const m=document.createElement('div');m.className=`ai-msg ${sender}`;m.innerText=text;box.appendChild(m);box.scrollTop=box.scrollHeight;}
+        function sendAiMessage(){const input=document.getElementById('aiInput');const txt=input.value.trim();if(!txt)return;addAiMsg(txt,'user');input.value='';processAiInput(txt);}
+        function processAiInput(txt){
+            setTimeout(()=>{
+                const t=txt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");let resp="";
+                if(t.match(/^(oi|ola|hey|bom dia|boa tarde|boa noite)/)){const hora=new Date().getHours();resp=`${hora<12?"Bom dia":hora<18?"Boa tarde":"Boa noite"}! Eu sou a Jennifer, assistente do Sabores de Itaquá. Posso te ajudar a encontrar qualquer loja da cidade. É só me perguntar!`;}
+                else if(t.match(/(pizza|pizzaria)/)){setCategory('pizzaria',document.querySelector('[data-cat="pizzaria"]'));resp=`Temos ${shops.filter(s=>s.categoria==='pizzaria').length} pizzarias em Itaquá. A DonaStella é uma das mais queridas, com nota 4.6. Quer ver os cardápios?`;}
+                else if(t.match(/(restaurante|almoco|jantar|comida)/)){setCategory('restaurante',document.querySelector('[data-cat="restaurante"]'));resp=`Achei ${shops.filter(s=>s.categoria==='restaurante').length} restaurantes. Temos desde comida caseira até culinária japonesa e churrascarias. Qual o seu estilo preferido?`;}
+                else if(t.match(/(mercado|supermercado|compras)/)){setCategory('supermercado',document.querySelector('[data-cat="supermercado"]'));resp=`São ${shops.filter(s=>s.categoria==='supermercado').length} supermercados. Takahashi, Nagumo, Assaí... todos com preços ótimos.`;}
+                else if(t.match(/(farmacia|remedio|saude)/)){setCategory('farmacia',document.querySelector('[data-cat="farmacia"]'));resp=`Encontrei ${shops.filter(s=>s.categoria==='farmacia').length} farmácias. A maioria faz entrega delivery.`;}
+                else if(t.match(/(lanche|hamburguer|burger)/)){setCategory('lanchonete',document.querySelector('[data-cat="lanchonete"]'));resp=`Temos ${shops.filter(s=>s.categoria==='lanchonete').length} lanchonetes. A CHILI Burger é a campeã de avaliações, com 4.7 estrelas.`;}
+                else if(t.match(/(sorvete|gelato|acai)/)){setCategory('sorveteria',document.querySelector('[data-cat="sorveteria"]'));resp=`São ${shops.filter(s=>s.categoria==='sorveteria').length} sorveterias. A Sorveteria Itália é ótima para um doce no calor.`;}
+                else if(t.match(/(bebida|adega|cerveja|vinho)/)){setCategory('bebidas',document.querySelector('[data-cat="bebidas"]'));resp=`Achei ${shops.filter(s=>s.categoria==='bebidas').length} lojas de bebidas. A Adega do Portuga é uma das mais tradicionais.`;}
+                else if(t.match(/(obrigad|valeu|brigado)/)){resp="Por nada! Fico feliz em ajudar. Se precisar de mais alguma coisa, é só me chamar. Até mais! 😊";}
+                else{resp=`Entendi. Tenho muitas lojas cadastradas em Itaquá. Você pode me perguntar, por exemplo: pizzaria, mercado, farmácia, restaurante ou sorveteria. O que você está procurando?`;}
+                addAiMsg(resp,'bot');speakText(resp);
+            },300+Math.random()*300);
+        }
+
+        document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeModal();if(document.getElementById('aiPanel').classList.contains('open'))toggleAiPanel();}});
+        renderCategories();renderOffers();renderCoupons();applyFilters();
+    </script>
+</body>
+</html>
